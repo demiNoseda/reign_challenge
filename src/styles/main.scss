@@ -1,0 +1,42 @@
+* {
+  padding: 0;
+  margin: 0;
+
+}
+
+body {
+  background-color: #fcfcfc;
+  font-family: Baskerville;
+}
+
+main {
+
+}
+
+//--------- Variables --------------
+$main-green:#1A9986;
+$white-bg:#fafafa;
+$light-gray:#E5E5E5;
+$card-background:#36ADAC;
+$main-yellow: #F9B234;
+$light-Green:#C8E9E2;
+$max-width-rs: 710px;
+$main-blue:#074F71;
+$dark-gray: #8F8F8F;
+
+@media (max-width: $max-width-rs) {}
+
+//--------- Fonts --------------
+
+
+
+
+// //--------- Views --------------
+
+
+// //--------- Layout --------------
+
+
+// //--------- Componentes --------------
+@import "./components/header.scss";
+@import "./components/toogler-view.scss";
