@@ -3,7 +3,14 @@ import ClockIcon from "../../assets/clockIcon";
 import HearthIcon from "../../assets/hearthIcon";
 import calculateDifferenceInHours from "../../helpers/calculateDifferenceInHours";
 
-const PostCard = ({ author, story_title, story_url, created_at }) => {
+const PostCard = ({
+  author,
+  story_title,
+  story_url,
+  created_at,
+  addOrRemoveFavPost,
+  id,
+}) => {
   const date1 = new Date(created_at);
   const date2 = new Date();
   const dateDifference = calculateDifferenceInHours(date1, date2);
@@ -11,18 +18,24 @@ const PostCard = ({ author, story_title, story_url, created_at }) => {
     days: Math.floor(dateDifference / 24),
     hours: dateDifference - 24 * Math.floor(dateDifference / 24),
   };
-  console.log(calculateDifferenceInHours(date1, date2));
-  // {created_at} by {author} the difference is{" "}
 
   const [fav, setFav] = useState(false);
 
   const handleClic = () => {
     setFav(!fav);
+    const post = {
+      author,
+      story_title,
+      story_url,
+      created_at,
+      id,
+    };
+    addOrRemoveFavPost(post);
   };
 
-  const handleOpenPost = ()=>{
-    window.open(story_url, '_blank', 'noopener,noreferrer');
-  }
+  const handleOpenPost = () => {
+    window.open(story_url, "_blank", "noopener,noreferrer");
+  };
   return (
     <div className="post_card">
       <div className="container_card" onClick={handleOpenPost}>
