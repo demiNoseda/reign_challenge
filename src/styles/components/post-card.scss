@@ -1,0 +1,73 @@
+.container {
+    margin: 38px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 30px 40px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        ". ."
+        ". ."
+        ". .";
+
+    .post_card {
+        width: 550px;
+        height: 90px;
+        font-family: Roboto;
+        padding: 0 0 0 26px;
+
+        border-radius: 6px;
+        border: solid 1px #979797;
+        background-color: #fff;
+        display: flex;
+        justify-content: space-between;
+        &:hover {
+            opacity: 0.4;
+        }
+        .container_card {
+            display: flex;
+            flex-direction: column;
+            padding: 26px;
+            justify-content: center;
+            width:100%;
+            .info {
+                display: flex;
+                align-items: center;
+                font-size: 11px;
+                color: $light-gray;
+
+                svg {
+                    margin-right: 8px;
+                }
+            }
+
+            .title {
+                margin-top: 7px;
+                font-size: 14px;
+                letter-spacing: 0.25px;
+                color: #606060;
+            }
+        }
+
+        .fav {
+            width: 68px;
+            height: 90px;
+            margin: 0 0 0 16px;
+            padding: 35px 22px 33px;
+            background-color: #60606010;
+        }
+    }
+}
+
+
+
+
+// .post_card  &amp:am:nbsp{
+
+//     border: 2px solid #e7e7e7;
+
+//     border-radius: 4px;
+
+//     padding: .5rem;
+
+//     }

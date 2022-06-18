@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 const TooglerView = ({ section, setSection }) => {
   const styles = {
     selected: { border: " solid 1px #1797ff", color: "#1797ff" },

@@ -1,7 +1,7 @@
 * {
   padding: 0;
   margin: 0;
-
+  box-sizing: border-box;
 }
 
 body {
@@ -14,15 +14,11 @@ main {
 }
 
 //--------- Variables --------------
-$main-green:#1A9986;
-$white-bg:#fafafa;
-$light-gray:#E5E5E5;
-$card-background:#36ADAC;
-$main-yellow: #F9B234;
-$light-Green:#C8E9E2;
+$main-gray:#6b6b6b;
+$light-gray: #767676;
+$card-darker-bg:#606060;
 $max-width-rs: 710px;
-$main-blue:#074F71;
-$dark-gray: #8F8F8F;
+$dark-gray: #3b3b3b;
 
 @media (max-width: $max-width-rs) {}
 
@@ -40,3 +36,5 @@ $dark-gray: #8F8F8F;
 // //--------- Componentes --------------
 @import "./components/header.scss";
 @import "./components/toogler-view.scss";
+@import "./components/post-card.scss";
+@import "./components/news-list.scss";
