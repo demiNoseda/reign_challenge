@@ -31,10 +31,13 @@ $dark-gray: #3b3b3b;
 
 
 // //--------- Layout --------------
-
+@import "./layout/news-container.scss";
 
 // //--------- Componentes --------------
 @import "./components/header.scss";
 @import "./components/toogler-view.scss";
 @import "./components/post-card.scss";
 @import "./components/news-list.scss";
+@import "./components/dropdown.scss";
+@import "./components/spinner.scss";
+

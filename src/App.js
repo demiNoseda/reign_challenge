@@ -3,16 +3,24 @@ import Header from "./components/Header";
 import TooglerView from "./components/TooglerView";
 import NewsList from "./components/news_list/NewsList";
 import "./styles/main.scss";
+import TopicDropdown from "./components/TopicDropdown";
+import Spinner from "./components/Spinner";
 
 function App() {
   const [section, setSection] = useState("all");
   const [newsArray, setNewsArray] = useState([]);
   const [favPostList, setFavPostList] = useState([]);
-
+  const [newsTopic, setNewsTopic] = useState("Select your news");
+  const [page, setPage] = useState(0);
+  const [spinner, setSpinner] = useState(false);
   useEffect(() => {
+    if (newsTopic === "Select your news") {
+      return;
+    }
     const fetchApi = async () => {
-      const url = `https://hn.algolia.com/api/v1/search_by_date?query=reactjs&page=1&hitsPerPage=80`;
-
+      setSpinner(true);
+      const url = `https://hn.algolia.com/api/v1/search_by_date?query=${newsTopic.toLowerCase()}&page=${page}&hitsPerPage=80`;
+  
       const response = await fetch(url);
       const data = await response.json();
 
@@ -20,7 +28,7 @@ function App() {
         ({ title, created_at, url, author }) =>
           title && created_at && url && author
       );
-
+      setSpinner(false);
       setNewsArray(
         hitsFiltered.map(({ title, created_at, url, author, objectID }) => ({
           author,
@@ -32,7 +40,7 @@ function App() {
       );
     };
     fetchApi();
-  }, []);
+  }, [newsTopic]);
   const addOrRemoveFavPost = (post) => {
     const listFiltered = favPostList.filter(
       (favPost) => favPost.id !== post.id
@@ -49,10 +57,17 @@ function App() {
     <div className="home_page">
       <Header />
       <TooglerView section={section} setSection={setSection} />
-      <NewsList
-        newsArray={section === "all" ? newsArray : favPostList}
-        addOrRemoveFavPost={addOrRemoveFavPost}
-      />
+      <div className="news_container">
+        {section === "all" ? (
+          <TopicDropdown newsTopic={newsTopic} setNewsTopic={setNewsTopic} />
+        ) : null}
+
+        <NewsList
+          newsArray={section === "all" ? newsArray : favPostList}
+          addOrRemoveFavPost={addOrRemoveFavPost}
+        />
+        {spinner ? <Spinner /> : null}
+      </div>
     </div>
   );
 }

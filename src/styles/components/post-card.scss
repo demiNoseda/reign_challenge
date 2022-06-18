@@ -1,5 +1,5 @@
 .container {
-    margin: 38px auto;
+    margin: 38px auto 0px auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
@@ -58,16 +58,3 @@
         }
     }
 }
-
-
-
-
-// .post_card  &amp:am:nbsp{
-
-//     border: 2px solid #e7e7e7;
-
-//     border-radius: 4px;
-
-//     padding: .5rem;
-
-//     }
