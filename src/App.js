@@ -23,9 +23,11 @@ function App() {
     }
     const fetchApi = async () => {
       setLoading(true);
+      const jumbotron = document.querySelector(".jumbotron");
+      jumbotron.scrollIntoView({ behavior: "smooth" });
       const url = `https://hn.algolia.com/api/v1/search_by_date?query=${newsTopic.toLowerCase()}&page=${
         page - 1
-      }&hitsPerPage=80`;
+      }&hitsPerPage=100`;
       const response = await fetch(url);
       const data = await response.json();
       setTotalPages(data.nbPages);
@@ -72,18 +74,19 @@ function App() {
 
   return (
     <div className="home_page">
-      <Header />
+      <div className="jumbotron">
+        <Header />
+      </div>
       <TooglerView section={section} setSection={setSection} />
       <div className="news_container">
         {section === "all" ? (
           <TopicDropdown newsTopic={newsTopic} setNewsTopic={setNewsTopic} />
         ) : null}
-
+        {loading ? <Spinner /> : null}
         <NewsList
           postsList={section === "all" ? postsList : favPostsList}
           addOrRemoveFavPost={addOrRemoveFavPost}
         />
-        {loading ? <Spinner /> : null}
       </div>
       {totalPages > 0 ? (
         <div className="pagination">
