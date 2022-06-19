@@ -5,31 +5,34 @@ import NewsList from "./components/news_list/NewsList";
 import "./styles/main.scss";
 import TopicDropdown from "./components/TopicDropdown";
 import Spinner from "./components/Spinner";
+import Pagination from "./components/Pagination";
 
 function App() {
   const [section, setSection] = useState("all");
-  const [newsArray, setNewsArray] = useState([]);
-  const [favPostList, setFavPostList] = useState([]);
+  const [postsList, setPostsList] = useState([]);
+  const [favPostsList, setFavPostsList] = useState([]);
   const [newsTopic, setNewsTopic] = useState("Select your news");
   const [page, setPage] = useState(0);
-  const [spinner, setSpinner] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     if (newsTopic === "Select your news") {
       return;
     }
     const fetchApi = async () => {
-      setSpinner(true);
+      setLoading(true);
       const url = `https://hn.algolia.com/api/v1/search_by_date?query=${newsTopic.toLowerCase()}&page=${page}&hitsPerPage=80`;
-  
+      console.log(url);
       const response = await fetch(url);
       const data = await response.json();
-
+      setTotalPages(data.nbPages);
       const hitsFiltered = data.hits.filter(
         ({ title, created_at, url, author }) =>
           title && created_at && url && author
       );
-      setSpinner(false);
-      setNewsArray(
+      setLoading(false);
+      setPostsList(
         hitsFiltered.map(({ title, created_at, url, author, objectID }) => ({
           author,
           story_title: title,
@@ -40,18 +43,21 @@ function App() {
       );
     };
     fetchApi();
-  }, [newsTopic]);
+  }, [newsTopic, page]);
+
   const addOrRemoveFavPost = (post) => {
-    const listFiltered = favPostList.filter(
+    const listFiltered = favPostsList.filter(
       (favPost) => favPost.id !== post.id
     );
 
-    if (listFiltered.length < favPostList.length) {
-      setFavPostList(listFiltered);
+    if (listFiltered.length < favPostsList.length) {
+      setFavPostsList(listFiltered);
     } else {
-      setFavPostList([...favPostList, post]);
+      setFavPostsList([...favPostsList, post]);
     }
   };
+
+  const paginate = (pageNumber) => setPage(pageNumber);
 
   return (
     <div className="home_page">
@@ -63,11 +69,44 @@ function App() {
         ) : null}
 
         <NewsList
-          newsArray={section === "all" ? newsArray : favPostList}
+          postsList={section === "all" ? postsList : favPostsList}
           addOrRemoveFavPost={addOrRemoveFavPost}
         />
-        {spinner ? <Spinner /> : null}
+        {loading ? <Spinner /> : null}
       </div>
+      {totalPages > 0 ? (
+        <div className="pagination">
+          {page > 0 ? (
+            <button
+              type="button"
+              onClick={() => {
+                paginate(page - 1);
+                console.log("Ejecture");
+              }}
+            >
+              &lt;
+            </button>
+          ) : null}
+
+          <Pagination
+            actualPage={page}
+            totalPages={totalPages}
+            paginate={paginate}
+          />
+
+          {page < totalPages - 1 ? (
+            <button
+              type="button"
+              onClick={() => {
+                paginate(page + 1);
+                console.log("Ejecture");
+              }}
+            >
+              &gt;
+            </button>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }

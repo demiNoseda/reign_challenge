@@ -1,10 +1,10 @@
 import PostCard from "./PostCard";
 
-const NewsList = ({ newsArray, addOrRemoveFavPost }) => {
+const NewsList = ({ postsList, addOrRemoveFavPost }) => {
   return (
     <div className="news_list">
       <div className="container">
-        {newsArray.map((post) => (
+        {postsList.map((post) => (
           <PostCard
             author={post.author}
             story_title={post.story_title}
