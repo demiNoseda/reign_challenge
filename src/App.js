@@ -12,9 +12,10 @@ function App() {
   const [postsList, setPostsList] = useState([]);
   const [favPostsList, setFavPostsList] = useState([]);
   const [newsTopic, setNewsTopic] = useState("Select your news");
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [initialPage, setInitialPage] = useState(1);
 
   useEffect(() => {
     if (newsTopic === "Select your news") {
@@ -22,8 +23,9 @@ function App() {
     }
     const fetchApi = async () => {
       setLoading(true);
-      const url = `https://hn.algolia.com/api/v1/search_by_date?query=${newsTopic.toLowerCase()}&page=${page}&hitsPerPage=80`;
-      console.log(url);
+      const url = `https://hn.algolia.com/api/v1/search_by_date?query=${newsTopic.toLowerCase()}&page=${
+        page - 1
+      }&hitsPerPage=80`;
       const response = await fetch(url);
       const data = await response.json();
       setTotalPages(data.nbPages);
@@ -57,7 +59,16 @@ function App() {
     }
   };
 
-  const paginate = (pageNumber) => setPage(pageNumber);
+  const paginate = (pageNumber) => {
+    setPage(pageNumber);
+    if (pageNumber > initialPage + 8) {
+      setInitialPage(pageNumber);
+    } else {
+      if (initialPage > pageNumber) {
+        setInitialPage(pageNumber - 8);
+      }
+    }
+  };
 
   return (
     <div className="home_page">
@@ -76,12 +87,11 @@ function App() {
       </div>
       {totalPages > 0 ? (
         <div className="pagination">
-          {page > 0 ? (
+          {page > 1 ? (
             <button
               type="button"
               onClick={() => {
                 paginate(page - 1);
-                console.log("Ejecture");
               }}
             >
               &lt;
@@ -92,6 +102,7 @@ function App() {
             actualPage={page}
             totalPages={totalPages}
             paginate={paginate}
+            initialPage={initialPage}
           />
 
           {page < totalPages - 1 ? (
@@ -99,7 +110,6 @@ function App() {
               type="button"
               onClick={() => {
                 paginate(page + 1);
-                console.log("Ejecture");
               }}
             >
               &gt;

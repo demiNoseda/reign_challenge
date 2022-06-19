@@ -1,17 +1,17 @@
-const Pagination = ({ totalPages, paginate, actualPage }) => {
+const Pagination = ({ totalPages, paginate, actualPage, initialPage }) => {
   const pageNumbers = [];
 
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
+  for (let i = 1; i <= totalPages - initialPage && i < 10; i++) {
+    pageNumbers.push(initialPage + i - 1);
   }
 
   return pageNumbers.map((number) => (
     <button
+      key={number}
       type="button"
-      className={actualPage === number - 1 ? "selected" : null}
+      className={actualPage === number ? "selected" : null}
       onClick={() => {
-        paginate(number - 1);
-        console.log("Ejecture");
+        paginate(number);
       }}
     >
       {number}
