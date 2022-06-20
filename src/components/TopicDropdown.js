@@ -3,11 +3,11 @@ import { useOutsideAlerter } from "../hooks/outsideAlerter";
 import angularLogo from "../assets/imgs/angular_icon.png";
 import reactLogo from "../assets/imgs/react_icon.png";
 import vuejsLogo from "../assets/imgs/vuejs_icon.png";
-const style_newsTopic = {
+const style_query = {
   background: "#F7F7F7",
 };
 
-const TopicDropdown = ({ newsTopic, setNewsTopic }) => {
+const TopicDropdown = ({ query, setQuery }) => {
   const { visible, setVisible, ref } = useOutsideAlerter(false);
 
   const handleOpenDropdown = () => {
@@ -16,7 +16,7 @@ const TopicDropdown = ({ newsTopic, setNewsTopic }) => {
 
   const handleChange = (e) => {
     e.preventDefault();
-    setNewsTopic(e.target.text);
+    setQuery(e.target.text);
     handleOpenDropdown();
   };
 
@@ -26,7 +26,7 @@ const TopicDropdown = ({ newsTopic, setNewsTopic }) => {
     { id: 3, text: "Vuejs", imgSrc: vuejsLogo },
   ];
 
-  const selectedInfo = options.filter((option) => option.text === newsTopic);
+  const selectedInfo = options.filter((option) => option.text === query);
 
   return (
     <div
@@ -45,7 +45,7 @@ const TopicDropdown = ({ newsTopic, setNewsTopic }) => {
             <img src={selectedInfo[0].imgSrc} />
           ) : null}
 
-          {newsTopic}
+          {query}
         </p>
         <Arrow />
       </button>
@@ -56,7 +56,7 @@ const TopicDropdown = ({ newsTopic, setNewsTopic }) => {
 
             <a
               onClick={handleChange}
-              style={option === newsTopic ? style_newsTopic : null}
+              style={option === query ? style_query : null}
               className="link text_bg"
               key={option.id}
             >

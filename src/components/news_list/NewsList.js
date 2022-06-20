@@ -1,6 +1,15 @@
 import PostCard from "./PostCard";
 
-const NewsList = ({ postsList, addOrRemoveFavPost }) => {
+const NewsList = ({ postsList, addOrRemoveFavPost, favPostsList }) => {
+  const isFavPost = (post) => {
+    const exist =
+      favPostsList.filter((favPost) => favPost.id === post.id).length > 0
+        ? true
+        : false;
+
+    return exist;
+  };
+
   return (
     <div className="news_list">
       <div className="container">
@@ -13,6 +22,7 @@ const NewsList = ({ postsList, addOrRemoveFavPost }) => {
             addOrRemoveFavPost={addOrRemoveFavPost}
             key={post.id}
             id={post.id}
+            favorite={isFavPost(post)}
           />
         ))}
       </div>

@@ -10,6 +10,7 @@ const PostCard = ({
   created_at,
   addOrRemoveFavPost,
   id,
+  favorite,
 }) => {
   const date1 = new Date(created_at);
   const date2 = new Date();
@@ -19,17 +20,18 @@ const PostCard = ({
     hours: dateDifference - 24 * Math.floor(dateDifference / 24),
   };
 
-  const [fav, setFav] = useState(false);
+  const [fav, setFav] = useState(favorite);
 
   const handleClic = () => {
-    setFav(!fav);
     const post = {
       author,
       story_title,
       story_url,
       created_at,
       id,
+      fav: !fav,
     };
+    setFav(!fav);
     addOrRemoveFavPost(post);
   };
 

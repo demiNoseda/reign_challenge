@@ -8,24 +8,30 @@ import Spinner from "./components/Spinner";
 import Pagination from "./components/Pagination";
 
 function App() {
-  const [section, setSection] = useState("all");
+  const [section, setSection] = useState(
+    JSON.parse(localStorage.getItem("section")) ?? "all"
+  );
   const [postsList, setPostsList] = useState([]);
-  const [favPostsList, setFavPostsList] = useState([]);
-  const [newsTopic, setNewsTopic] = useState("Select your news");
+  const [favPostsList, setFavPostsList] = useState(
+    JSON.parse(localStorage.getItem("favPosts")) ?? []
+  );
+  const [query, setQuery] = useState(
+    JSON.parse(localStorage.getItem("query")) ?? "Select your news"
+  );
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [initialPage, setInitialPage] = useState(1);
 
   useEffect(() => {
-    if (newsTopic === "Select your news") {
+    if (query === "Select your news") {
       return;
     }
     const fetchApi = async () => {
-      setLoading(true);
+      if (section === "all") setLoading(true);
       const jumbotron = document.querySelector(".jumbotron");
       jumbotron.scrollIntoView({ behavior: "smooth" });
-      const url = `https://hn.algolia.com/api/v1/search_by_date?query=${newsTopic.toLowerCase()}&page=${
+      const url = `https://hn.algolia.com/api/v1/search_by_date?query=${query.toLowerCase()}&page=${
         page - 1
       }&hitsPerPage=100`;
       const response = await fetch(url);
@@ -43,11 +49,24 @@ function App() {
           story_url: url,
           created_at,
           id: objectID,
+          fav: false,
         }))
       );
     };
     fetchApi();
-  }, [newsTopic, page]);
+  }, [query, page]);
+
+  useEffect(() => {
+    localStorage.setItem("favPosts", JSON.stringify(favPostsList));
+  }, [favPostsList]);
+
+  useEffect(() => {
+    localStorage.setItem("query", JSON.stringify(query));
+  }, [query]);
+
+  useEffect(() => {
+    localStorage.setItem("section", JSON.stringify(section));
+  }, [section]);
 
   const addOrRemoveFavPost = (post) => {
     const listFiltered = favPostsList.filter(
@@ -80,15 +99,16 @@ function App() {
       <TooglerView section={section} setSection={setSection} />
       <div className="news_container">
         {section === "all" ? (
-          <TopicDropdown newsTopic={newsTopic} setNewsTopic={setNewsTopic} />
+          <TopicDropdown query={query} setQuery={setQuery} />
         ) : null}
         {loading ? <Spinner /> : null}
         <NewsList
           postsList={section === "all" ? postsList : favPostsList}
           addOrRemoveFavPost={addOrRemoveFavPost}
+          favPostsList={favPostsList}
         />
       </div>
-      {totalPages > 0 ? (
+      {totalPages > 0 && section === "all" ? (
         <div className="pagination">
           {page > 1 ? (
             <button
