@@ -22,9 +22,6 @@ const getHackerNews = async (query, page) => {
     return list;
   }, []);
 
-  console.log("---------------");
-  console.log(data.hits, data.nbPages);
-
   const result = {
     nbPages: data.nbPages,
     newsList,
@@ -32,4 +29,4 @@ const getHackerNews = async (query, page) => {
   return result;
 };
 
-export {getHackerNews};
+export { getHackerNews };
