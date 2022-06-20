@@ -1,13 +1,14 @@
 .pagination{
     display: flex;
     justify-content: center;
-    margin:96px 0;
+    margin:65px 0 96px 0;
+    flex-wrap: wrap;
 
     .page-item, button{
         font-size: 14px;
         width: 32px;
         height: 32px;
-        margin: 0 8px 0 0;
+        margin: 0 8px 8px 0;
         padding: 9px;
         border-radius: 6px;
         border: solid 1px #d9d9d9;
@@ -18,4 +19,6 @@
         color: #fff;
         background-color: #1890ff; 
     }
+
+    
 }

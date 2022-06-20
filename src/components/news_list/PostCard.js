@@ -2,6 +2,7 @@ import { useState } from "react";
 import ClockIcon from "../../assets/clockIcon";
 import HearthIcon from "../../assets/hearthIcon";
 import calculateDifferenceInHours from "../../helpers/calculateDifferenceInHours";
+import truncateString from "../../helpers/truncateString";
 
 const PostCard = ({
   author,
@@ -53,7 +54,11 @@ const PostCard = ({
           </p>
         </div>
         <div className="title">
-          <span>{story_title}</span>
+          <span>
+            {story_title.length > 70
+              ? truncateString(story_title, 55)
+              : story_title}
+          </span>
         </div>
       </div>
       <div className="fav" onClick={handleClic}>

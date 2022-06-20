@@ -17,10 +17,11 @@ main {
 $main-gray:#6b6b6b;
 $light-gray: #767676;
 $card-darker-bg:#606060;
-$max-width-rs: 710px;
+$max-width-bg: 1040px;
+$max-width-sm: 650px;
 $dark-gray: #3b3b3b;
 
-@media (max-width: $max-width-rs) {}
+@media (max-width: $max-width-bg) {}
 
 //--------- Fonts --------------
 
@@ -36,7 +37,7 @@ $dark-gray: #3b3b3b;
 
 // //--------- Componentes --------------
 @import "./components/header.scss";
-@import "./components/toogler-view.scss";
+@import "./components/toogler-section.scss";
 @import "./components/post-card.scss";
 @import "./components/news-list.scss";
 @import "./components/dropdown.scss";

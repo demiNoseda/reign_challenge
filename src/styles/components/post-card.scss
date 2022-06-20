@@ -1,32 +1,31 @@
 .container {
     margin: 38px auto 0px auto;
-    display: grid;
-    gap: 30px 40px;
-    grid-template-areas:
-        ". ."
-        ". ."
-        ". .";
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
     .post_card {
-        width: 550px;
-        height: 90px;
+        width: 44%;
+      
         font-family: Roboto;
-        padding: 0 0 0 26px;
-
+        margin-bottom: 30px;
         border-radius: 6px;
         border: solid 1px #979797;
         background-color: #fff;
         display: flex;
         justify-content: space-between;
+
         &:hover {
             opacity: 0.4;
         }
+
         .container_card {
             display: flex;
             flex-direction: column;
-            padding: 26px;
+            padding: 7px 25px;
             justify-content: center;
-            width:100%;
+            width: 100%;
+
             .info {
                 display: flex;
                 align-items: center;
@@ -43,15 +42,42 @@
                 font-size: 14px;
                 letter-spacing: 0.25px;
                 color: #606060;
+              
             }
         }
 
         .fav {
-            width: 68px;
-            height: 90px;
-            margin: 0 0 0 16px;
             padding: 35px 22px 33px;
             background-color: #60606010;
         }
     }
+
+    @media (max-width: $max-width-bg) {
+        width: 70%;
+        flex-direction: column;
+        align-items: center;
+        .post_card {
+            width: 100%;
+            .container_card {
+                .title {
+                   word-break: break-all; 
+                }
+            }
+        }
+      }
+
+      
+    @media (max-width: $max-width-sm) {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        .post_card {
+            width: 100%;
+            .container_card {
+                .title {
+                   word-break: break-all; 
+                }
+            }
+        }
+      }
 }

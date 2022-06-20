@@ -1,5 +1,6 @@
-.toogler_view {
-    margin: 0 0 0 43.2%;
+.toogler_section {
+    display: flex;
+    justify-content: center;
 
     button {
         width: 98px;
@@ -11,4 +12,6 @@
         font-size: 16px;
         color: #606060;
     }
+
+    
 }

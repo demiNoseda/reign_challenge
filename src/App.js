@@ -107,7 +107,7 @@ function App() {
           addOrRemoveFavPost={addOrRemoveFavPost}
           favPostsList={favPostsList}
         />
-      </div>
+      
       {totalPages > 0 && section === "all" ? (
         <div className="pagination">
           {page > 1 ? (
@@ -139,7 +139,9 @@ function App() {
             </button>
           ) : null}
         </div>
+        
       ) : null}
+      </div>
     </div>
   );
 }

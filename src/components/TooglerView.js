@@ -8,7 +8,7 @@ const TooglerView = ({ section, setSection }) => {
   };
 
   return (
-    <div className="toogler_view">
+    <div className="toogler_section">
       <button
         className="all_view"
         style={section === "all" ? styles.selected : null}
