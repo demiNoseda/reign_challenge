@@ -33,28 +33,34 @@ function App() {
       jumbotron.scrollIntoView({ behavior: "smooth" });
       const url = `https://hn.algolia.com/api/v1/search_by_date?query=${query.toLowerCase()}&page=${
         page - 1
-      }&hitsPerPage=100`;
+      }&hitsPerPage=20`;
+
       const response = await fetch(url);
       const data = await response.json();
       setTotalPages(data.nbPages);
-      const hitsFiltered = data.hits.filter(
-        ({ title, created_at, url, author }) =>
-          title && created_at && url && author
-      );
+
+      console.log(data);
       setLoading(false);
-      setPostsList(
-        hitsFiltered.map(({ title, created_at, url, author, objectID }) => ({
-          author,
-          story_title: title,
-          story_url: url,
-          created_at,
-          id: objectID,
-          fav: false,
-        }))
-      );
+
+      const newsList = data.hits.reduce((list, item) => {
+        const { author, created_at, story_id, story_title, story_url } = item;
+        if (author && created_at && story_id && story_title && story_url) {
+          const news = {
+            author,
+            created_at,
+            story_id,
+            story_title,
+            story_url,
+          };
+          return list.concat(news);
+        }
+        return list;
+      }, []);
+
+      setPostsList(newsList);
     };
     fetchApi();
-  }, [query, page]);
+  }, [query, page, section]);
 
   useEffect(() => {
     localStorage.setItem("favPosts", JSON.stringify(favPostsList));
@@ -62,6 +68,8 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("query", JSON.stringify(query));
+    setPage(1);
+    setInitialPage(1);
   }, [query]);
 
   useEffect(() => {
@@ -107,40 +115,39 @@ function App() {
           addOrRemoveFavPost={addOrRemoveFavPost}
           favPostsList={favPostsList}
         />
-      
-      {totalPages > 0 && section === "all" ? (
-        <div className="pagination">
-          {page > 1 ? (
-            <button
-              type="button"
-              onClick={() => {
-                paginate(page - 1);
-              }}
-            >
-              &lt;
-            </button>
-          ) : null}
 
-          <Pagination
-            actualPage={page}
-            totalPages={totalPages}
-            paginate={paginate}
-            initialPage={initialPage}
-          />
+        {totalPages > 0 && section === "all" ? (
+          <div className="pagination">
+            {page > 1 ? (
+              <button
+                type="button"
+                onClick={() => {
+                  paginate(page - 1);
+                }}
+              >
+                &lt;
+              </button>
+            ) : null}
 
-          {page < totalPages - 1 ? (
-            <button
-              type="button"
-              onClick={() => {
-                paginate(page + 1);
-              }}
-            >
-              &gt;
-            </button>
-          ) : null}
-        </div>
-        
-      ) : null}
+            <Pagination
+              actualPage={page}
+              totalPages={totalPages}
+              paginate={paginate}
+              initialPage={initialPage}
+            />
+
+            {page < totalPages - 1 ? (
+              <button
+                type="button"
+                onClick={() => {
+                  paginate(page + 1);
+                }}
+              >
+                &gt;
+              </button>
+            ) : null}
+          </div>
+        ) : null}
       </div>
     </div>
   );
