@@ -10,18 +10,18 @@ const PostCard = ({
   story_url,
   created_at,
   addOrRemoveFavPost,
-  id,
+  story_id,
   favorite,
 }) => {
   const [fav, setFav] = useState(favorite);
 
-  const handleClic = () => {
+  const handleClick = () => {
     const post = {
       author,
       story_title,
       story_url,
       created_at,
-      id,
+      story_id,
       fav: !fav,
     };
     setFav(!fav);
@@ -33,7 +33,11 @@ const PostCard = ({
   };
   return (
     <div className="post_card">
-      <div className="container_card" onClick={handleOpenPost}>
+      <div
+        className="container_card"
+        onClick={handleOpenPost}
+        data-testid="post_card"
+      >
         <div className="info">
           <ClockIcon />
           <p>
@@ -48,8 +52,8 @@ const PostCard = ({
           </span>
         </div>
       </div>
-      <div className="fav" onClick={handleClic}>
-        <HearthIcon selected={fav} />
+      <div className="fav" onClick={handleClick}  data-testid="hearth_icon">
+        <HearthIcon selected={favorite} />
       </div>
     </div>
   );

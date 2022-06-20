@@ -6,59 +6,42 @@ import "./styles/main.scss";
 import TopicDropdown from "./components/TopicDropdown";
 import Spinner from "./components/Spinner";
 import Pagination from "./components/Pagination";
+import { getHackerNews } from "./service/apiCalls";
 
 function App() {
   const [section, setSection] = useState(
     JSON.parse(localStorage.getItem("section")) ?? "all"
   );
-  const [postsList, setPostsList] = useState([]);
+
   const [favPostsList, setFavPostsList] = useState(
     JSON.parse(localStorage.getItem("favPosts")) ?? []
   );
+
   const [query, setQuery] = useState(
     JSON.parse(localStorage.getItem("query")) ?? "Select your news"
   );
+
+  const [postsList, setPostsList] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [initialPage, setInitialPage] = useState(1);
 
   useEffect(() => {
-    if (query === "Select your news") {
-      return;
-    }
+    if (query === "Select your news") return;
+
     const fetchApi = async () => {
       if (section === "all") setLoading(true);
       const jumbotron = document.querySelector(".jumbotron");
       jumbotron.scrollIntoView({ behavior: "smooth" });
-      const url = `https://hn.algolia.com/api/v1/search_by_date?query=${query.toLowerCase()}&page=${
-        page - 1
-      }&hitsPerPage=20`;
 
-      const response = await fetch(url);
-      const data = await response.json();
+      const data = await getHackerNews(query, page);
+
       setTotalPages(data.nbPages);
-
-      console.log(data);
       setLoading(false);
-
-      const newsList = data.hits.reduce((list, item) => {
-        const { author, created_at, story_id, story_title, story_url } = item;
-        if (author && created_at && story_id && story_title && story_url) {
-          const news = {
-            author,
-            created_at,
-            story_id,
-            story_title,
-            story_url,
-          };
-          return list.concat(news);
-        }
-        return list;
-      }, []);
-
-      setPostsList(newsList);
+      setPostsList(data.newsList);
     };
+
     fetchApi();
   }, [query, page, section]);
 
@@ -78,7 +61,7 @@ function App() {
 
   const addOrRemoveFavPost = (post) => {
     const listFiltered = favPostsList.filter(
-      (favPost) => favPost.id !== post.id
+      (favPost) => favPost.story_id !== post.story_id
     );
 
     if (listFiltered.length < favPostsList.length) {
@@ -109,7 +92,9 @@ function App() {
         {section === "all" ? (
           <TopicDropdown query={query} setQuery={setQuery} />
         ) : null}
+
         {loading ? <Spinner /> : null}
+
         <NewsList
           postsList={section === "all" ? postsList : favPostsList}
           addOrRemoveFavPost={addOrRemoveFavPost}

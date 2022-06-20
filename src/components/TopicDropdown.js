@@ -42,7 +42,7 @@ const TopicDropdown = ({ query, setQuery }) => {
       >
         <p>
           {selectedInfo.length > 0 ? (
-            <img src={selectedInfo[0].imgSrc} />
+            <img src={selectedInfo[0].imgSrc} alt={selectedInfo[0].text} />
           ) : null}
 
           {query}
@@ -53,14 +53,13 @@ const TopicDropdown = ({ query, setQuery }) => {
         <div className="dropdown-links">
           {options.map((option) => (
             // eslint-disable-next-line
-
             <a
               onClick={handleChange}
               style={option === query ? style_query : null}
               className="link text_bg"
               key={option.id}
             >
-              <img src={option.imgSrc} />
+              <img src={option.imgSrc} alt={selectedInfo[0].text} />
               {option.text}
             </a>
           ))}

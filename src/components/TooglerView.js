@@ -14,6 +14,7 @@ const TooglerView = ({ section, setSection }) => {
         style={section === "all" ? styles.selected : null}
         onClick={handleClick}
         value="all"
+        data-testid="all_section"
       >
         All
       </button>
@@ -22,8 +23,9 @@ const TooglerView = ({ section, setSection }) => {
         style={section === "favs" ? styles.selected : null}
         onClick={handleClick}
         value="favs"
+        data-testid="favs_section"
       >
-        My faves
+        My favs
       </button>
     </div>
   );

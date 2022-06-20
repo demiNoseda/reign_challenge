@@ -5,6 +5,7 @@ const HearthIcon = ({ width, height, color, selected }) => {
       width="24"
       height="22"
       viewBox="0 0 24 22"
+     
     >
       {selected ? (
         <path
