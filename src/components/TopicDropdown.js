@@ -3,7 +3,6 @@ import { useOutsideAlerter } from "../hooks/outsideAlerter";
 import angularLogo from "../assets/imgs/angular_icon.png";
 import reactLogo from "../assets/imgs/react_icon.png";
 import vuejsLogo from "../assets/imgs/vuejs_icon.png";
-import { useState } from "react";
 const style_query = {
   background: "#F7F7F7",
 };
@@ -13,6 +12,11 @@ const TopicDropdown = ({ query, setQuery }) => {
   const handleOpenDropdown = () => {
     setVisible((prevState) => !prevState);
   };
+  const options = [
+    { id: 1, text: "Angular", imgSrc: angularLogo },
+    { id: 2, text: "Reactjs", imgSrc: reactLogo },
+    { id: 3, text: "Vuejs", imgSrc: vuejsLogo },
+  ];
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -21,11 +25,6 @@ const TopicDropdown = ({ query, setQuery }) => {
   };
 
   const selectedInfo = options.filter((option) => option.text === query);
-  const options = [
-    { id: 1, text: "Angular", imgSrc: angularLogo },
-    { id: 2, text: "Reactjs", imgSrc: reactLogo },
-    { id: 3, text: "Vuejs", imgSrc: vuejsLogo },
-  ];
   return (
     <div
       ref={ref}
